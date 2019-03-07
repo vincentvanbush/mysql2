@@ -265,6 +265,20 @@ static void *nogvl_close(void *ptr) {
   mysql_client_wrapper *wrapper = ptr;
 
   if (!wrapper->closed) {
+    fprintf(
+      stderr,
+      "[%d MYSQL2 FINALIZER] %s \n",
+      getpid(),
+      wrapper->client->db
+    );
+    if (!wrapper->client->db) {
+      fprintf(
+        stderr,
+        "[%d MYSQL2 FINALIZER] Not closing. Looks to be garbage. \n",
+        getpid()
+      );
+      return NULL;
+    }
     mysql_close(wrapper->client);
     wrapper->closed = 1;
     wrapper->reconnect_enabled = 0;
