@@ -265,12 +265,6 @@ static void *nogvl_close(void *ptr) {
   mysql_client_wrapper *wrapper = ptr;
 
   if (!wrapper->closed) {
-    fprintf(
-      stderr,
-      "[%d MYSQL2 FINALIZER] %s \n",
-      getpid(),
-      wrapper->client->db
-    );
     if (!wrapper->client->db) {
       fprintf(
         stderr,
